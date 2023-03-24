@@ -1,9 +1,15 @@
 package edu.iu.p565.customerservice.model;
 
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.Objects;
+
 public class Customer {
 
     private int id;
+    @NotEmpty(message = "name cannot be empty")
     private String name;
+    @NotEmpty(message = "email cannot be empty")
     private String email;
 
     public int getId() {
@@ -29,12 +35,21 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public void add(Customer customer) {
+    @Override
+    public boolean equals(Object o){
+        if (o==this)
+            return true;
+        if(!(o instanceof Customer)){
+            return false;
+        }
+        Customer customer = (Customer) o;
+        return id == customer.id && Objects.equals(name, customer.name) && Objects.equals(email, customer.email);
+    }
+    @Override
+    public int hashCode(){
+        return Objects.hash(id,name,email);
     }
 
-    public int size() {
-        return 0;
-    }
-    
+
+
 }
